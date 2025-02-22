@@ -144,3 +144,81 @@ This document explains the flow of problem submission on LeetCode, from user sub
 ✅ **Efficient handling of high traffic**  
 ✅ **Real-time updates for users**  
 ✅ **Optimized execution via queueing & worker distribution**
+
+# Understanding the Architecture: Key Questions and Explanations
+
+## 1. Why are we not running user code in our primary backend? Why are we delegating the task of running code to workers?
+
+### Explanation  
+Running user-submitted code directly on the primary backend poses several risks, including:  
+- **Performance issues** – Inefficient or resource-heavy user code can slow down the entire backend.  
+- **Security vulnerabilities** – Malicious or infinite loops in user code could crash the system, impacting all users.  
+
+### Solution  
+To prevent these issues, we delegate code execution to **workers**, which are independent processing units designed for handling such tasks.  
+
+### How Scaling Works  
+Workers are dynamically scaled based on the **queue length** to ensure efficient resource usage:  
+- **If the queue length is 100 → Scale up to 20 workers**  
+- **If the queue length is 3 → Scale down to 1 worker**  
+
+This ensures that the **primary backend remains available and responsive** while workers handle the compute-intensive operations.
+
+---
+
+## 2. Why are we using a queue system?
+
+### Explanation  
+A **queue system** helps in managing and processing multiple submissions efficiently. Instead of executing user code instantly, the queue organizes and schedules tasks systematically.  
+
+### Benefits of a Queue System  
+- **Orderly execution** – Tasks are processed in sequence, avoiding bottlenecks.  
+- **Prevents system overload** – Manages sudden spikes in requests without crashing the system.  
+- **Ensures priority-based execution** – For example, **premium users** may get faster execution times.  
+
+### Scaling with the Queue System  
+- If the number of pending tasks increases, more workers are **automatically** added.  
+- When the load reduces, workers **scale down**, saving resources.
+
+---
+
+## 3. Why do we need Pub/Sub to share responses with the client?
+
+### Explanation  
+A **Pub/Sub (Publish-Subscribe) system** is used for real-time communication between the backend and clients. Since a **user may be logged in on multiple devices** (e.g., browser and mobile), both devices should receive the same update simultaneously.  
+
+### How Pub/Sub Helps  
+- When a user submits a request, they **subscribe** to a specific topic, such as `"user:1"`.  
+- Once the task is completed, the backend **publishes** the response to that topic.  
+- All devices **listening** to `"user:1"` receive the update instantly.  
+
+### Key Benefits  
+✅ Real-time updates on all devices.  
+✅ Eliminates the need for **polling**, reducing backend load.  
+✅ Improves the overall **user experience**.
+
+---
+
+## 4. What are workers? Does each worker process each user's code one at a time?
+
+### Explanation  
+**Workers** are independent processing units that execute user-submitted code. The number of workers is dynamically adjusted based on the queue length to ensure efficient execution.  
+
+### Worker Execution Model  
+Workers can process tasks in different ways, depending on the system design:  
+- **Single-threaded** – Each worker processes **one** task at a time.  
+- **Multi-threaded** – A worker can execute **multiple** tasks concurrently.  
+
+### Why This is Efficient  
+- Prevents the **primary backend** from being overloaded.  
+- Allows **better resource utilization** by running multiple tasks in parallel when needed.  
+- Ensures **scalability** – more workers can be added during high demand and reduced during low activity.  
+
+---
+
+## Conclusion  
+By using a **combination of workers, a queue system, and Pub/Sub**, the system is designed for:  
+✅ **Scalability** – Dynamic worker allocation based on queue length.  
+✅ **Efficiency** – Ordered task processing without overloading the backend.  
+✅ **Real-time Updates** – Pub/Sub ensures users get instant responses across all devices.  
+
