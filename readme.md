@@ -1,4 +1,5 @@
 # How MakeMyTrip (MMT) Bookings Work?
+![image](https://github.com/user-attachments/assets/832c2463-41ec-4b95-b487-b07098cd7fba)
 
 ---
 
