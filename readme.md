@@ -48,6 +48,7 @@ Below is a structured explanation of how a flight/hotel booking works on MakeMyT
 * The booking details are **added to the database**, confirming the reservation.
 
 ---
+**NOTE : Never process two withdrawl request parallely,  let the requests be reside in the queue and process each request sequentially at a time.**
 
 ## 2. Why Does MakeMyTrip (MMT) Use a Separate Webhook Server for Banks?
 
