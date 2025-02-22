@@ -20,7 +20,7 @@ Below is a structured explanation of how a flight/hotel booking works on MakeMyT
 ### **Step 4: Payment Gateway Redirection**
 * A new **popup window** opens, redirecting the user to **HDFC Net Banking** (`netbanking.hdfc.com`) to complete the transaction.
 
-### **Step 5: User Closes MMT Frontend Checkout Page**
+### **Step 5: If User Closes MMT Frontend Checkout Page**
 * Instead of waiting, the user **closes** the MMT **checkout page** while the payment is still in progress on the HDFC website.
 
 ### **Step 6: Payment Completion on HDFC Portal**
