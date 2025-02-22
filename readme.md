@@ -91,3 +91,57 @@ MMT keeps a **separate webhook server** for banks to ensure **better performance
 
 # 2. How Leetcode problem submission work ?
 ![image](https://github.com/user-attachments/assets/2bfc1d65-abba-4646-b661-673543ff8a38)
+# LeetCode Problem Submission Architecture
+
+## Overview
+This document explains the flow of problem submission on LeetCode, from user submission to execution and result delivery.
+
+## 1. User Submits Code
+- A user writes and submits code via:
+  - **Browser**
+  - **Mobile App**
+- The request contains:
+  ```json
+  {
+    "userId": 43,
+    "problemId": 91,
+    "language": "java",
+    "code": "..."
+  }
+  ```
+
+## 2. Primary Backend (BE) Processing
+- The request is sent to the **Primary Backend (BE)**, which handles:
+  - `/problems` → Problem-related data
+  - `/contest` → Contest-related data
+  - `/profile` → User profile data
+- The backend processes the request and forwards it to the **Queue**.
+
+## 3. Queue System
+- The **Queue** ensures smooth processing and distributes tasks efficiently to **Workers (w1, w2, etc.)**.
+- The workers execute the submitted code on LeetCode’s servers.
+
+## 4. Publishing Execution Results
+- Once execution is complete, the result is published via a **Pub/Sub (Publish-Subscribe) system**.
+- Example result:
+  ```json
+  {
+    "userId": 43,
+    "problemId": 91,
+    "language": "java",
+    "status": "TLE"
+  }
+  ```
+- This result is sent to users subscribed to updates for `userId: 43`.
+
+## 5. WebSocket (WS) Result Delivery
+- The user's browser or mobile app **subscribes** to their execution results via WebSockets (`WS1`, `WS2`, `WS3`).
+- WebSockets push the response back to the user’s interface in **real-time**.
+
+## Final Output
+- The user sees their submission result (e.g., **Accepted, TLE, Wrong Answer**) instantly.
+
+## Benefits of This Architecture
+✅ **Efficient handling of high traffic**  
+✅ **Real-time updates for users**  
+✅ **Optimized execution via queueing & worker distribution**
