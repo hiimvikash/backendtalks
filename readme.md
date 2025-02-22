@@ -1,4 +1,4 @@
-# How MakeMyTrip (MMT) Bookings Work?
+# 1. How MakeMyTrip (MMT) Bookings Work?
 ![image](https://github.com/user-attachments/assets/832c2463-41ec-4b95-b487-b07098cd7fba)
 
 ---
@@ -88,3 +88,5 @@ MMT uses a **separate webhook server** instead of merging it into the main backe
 
 ### ✅ Summary  
 MMT keeps a **separate webhook server** for banks to ensure **better performance, security, reliability, and scalability** while avoiding issues in the main backend. 🚀  
+
+# 2. How Leetcode problem submission work ?
