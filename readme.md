@@ -90,7 +90,7 @@ MMT uses a **separate webhook server** instead of merging it into the main backe
 MMT keeps a **separate webhook server** for banks to ensure **better performance, security, reliability, and scalability** while avoiding issues in the main backend. 🚀  
 
 # 2. How Leetcode problem submission work ?
-![image](https://github.com/user-attachments/assets/2bfc1d65-abba-4646-b661-673543ff8a38)
+
 # LeetCode Problem Submission Architecture
 
 ## Overview
@@ -145,3 +145,5 @@ This document explains the flow of problem submission on LeetCode, from user sub
 ✅ **Efficient handling of high traffic**  
 ✅ **Real-time updates for users**  
 ✅ **Optimized execution via queueing & worker distribution**
+
+![image](https://github.com/user-attachments/assets/2ab5cd6b-690b-4ae0-99dd-3b9f9a19ffa8)
